@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <form th:method="POST" th:action="@{/users}" th:object="${user}">
+    <label for="name">Enter name: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <br/>
+    <label for="lastname">Enter lastname: </label>
+    <input type="text" th:field="*{lastname}" id="lastname"/>
+    <br/>
+    <input type="submit" value="Save"/>
+  </form>
+  <br>
+  <table th:if="${not #lists.isEmpty(users)}">
+    <thead>
+      <tr>
+        <th> id </th>
+        <th> name </th>
+        <th> lastname </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="us : ${users}">
+        <td><span th:text="${us.id}"> id </span></td>
+        <td><span th:text="${us.name}"> name </span></td>
+        <td><span th:text="${us.lastname}"> lastname </span></td>
+        <td>
+          <a th:href="@{/users/edit?id={id}(id=${us.getId()})}">Edit</a>
+        </td>
+        <td>
+          <form th:method="POST" th:action="@{/users/delete?id={id}(id=${us.getId()})}">
+            <input type="submit" value="Delete"/>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
